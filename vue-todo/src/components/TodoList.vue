@@ -1,11 +1,11 @@
 <template>
   <div>
       <ul>
-          <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem">
-              <span :click="toggoleCom(todoItem, index)" v-bind:class="{checkBtn: todoItem.completed}">checkBtn</span>
+          <li v-for="(todoItem, index) in propsdata" v-bind:key="todoItem.item">
+              <span v-on:click="toggoleCom(todoItem, index)" v-bind:class="{checkbtn: todoItem.completed}">checkBtn</span>
               <!-- todoItem.completed 값이 true 면  textCompleted 가들어감 false 는 안들감-->
-              <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
-              <span v-on:click="removeTodo(todoItem, index)" >삭제</span>
+              <span v-bind:class="{textcompleted: todoItem.completed}">{{ todoItem.item }}</span>
+              <button v-on:click="removeTodo(todoItem, index)" >삭제</button>
           </li>
       </ul>
   </div>
@@ -13,41 +13,27 @@
 
 <script>
     export default {
-        data: function(){
-            return {
-                todoItems: []
-            }
-        },
+        props:['propsdata'],
         methods:{
             removeTodo: function(todoItem, index){
-                console.log(todoItem, index);
-                localStorage.removeItem(todoItem);
-                this.todoItems.splice(index, 1);
+                this.$emit('removeItem', todoItem, index);
+                // console.log(todoItem)
+
             },
             toggoleCom: function(todoItem, index){
-                todoItem.completed = !todoItem.completed;
-                localStorage.removeItem(todoItem.item);
-                localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
-            }
-        },
-        created: function(){
-            if(localStorage.length > 0){
-                for(var i = 0; i < localStorage.length; i ++){
-                    if(localStorage.key(i) !== "loglevel:webpack-dev-server"){
-                        this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-                    }
-                }
+                this.$emit('toggleItem', todoItem, index);
             }
         }
+        
     }
 </script>
 
 <style>
-    .textCompleted{
+    .textcompleted{
         text-align: center;
         color: red;
     }
-    .checkBtn{
+    .checkbtn{
         color: blueviolet;
     }
 </style>
