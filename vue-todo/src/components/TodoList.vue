@@ -1,13 +1,19 @@
 <template>
   <div>
-      <ul>
+      <!-- name 은 클래스명 tag 는 말그대로 태그사용할거 -->
+      <transition-group name="list" tag="ul">
           <li v-for="(todoItem, index) in propsdata" v-bind:key="todoItem.item">
+              
               <span v-on:click="toggoleCom(todoItem, index)" v-bind:class="{checkbtn: todoItem.completed}">checkBtn</span>
+
               <!-- todoItem.completed 값이 true 면  textCompleted 가들어감 false 는 안들감-->
+
               <span v-bind:class="{textcompleted: todoItem.completed}">{{ todoItem.item }}</span>
+
               <button v-on:click="removeTodo(todoItem, index)" >삭제</button>
+
           </li>
-      </ul>
+      </transition-group>
   </div>
 </template>
 
@@ -15,12 +21,12 @@
     export default {
         props:['propsdata'],
         methods:{
-            removeTodo: function(todoItem, index){
+            removeTodo(todoItem, index){
                 this.$emit('removeItem', todoItem, index);
                 // console.log(todoItem)
 
             },
-            toggoleCom: function(todoItem, index){
+            toggoleCom(todoItem, index){
                 this.$emit('toggleItem', todoItem, index);
             }
         }
@@ -35,5 +41,13 @@
     }
     .checkbtn{
         color: blueviolet;
+    }
+    /* 리스트 아이템 트렌지션 효과 */
+    .list-enter-active, .list-leave-active {
+    transition: all 1s;
+    }
+    .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateY(30px);
     }
 </style>
