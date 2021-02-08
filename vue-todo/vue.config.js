@@ -1,5 +1,8 @@
 module.exports = {
 
-    lintOnSave: false
+    lintOnSave: false,
+    configureWebpack: {
+        entry: ["babel-polyfill", "./src/main.js"]
+    }
 
 }

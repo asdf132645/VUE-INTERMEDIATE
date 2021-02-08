@@ -2,7 +2,7 @@
   <div>
       <!-- name 은 클래스명 tag 는 말그대로 태그사용할거 -->
       <transition-group name="list" tag="ul">
-          <li v-for="(todoItem, index) in propsdata" v-bind:key="todoItem.item">
+          <li v-for="(todoItem, index) in this.$store.state.todoItems" v-bind:key="todoItem.item">
               
               <span v-on:click="toggoleCom(todoItem, index)" v-bind:class="{checkbtn: todoItem.completed}">checkBtn</span>
 
@@ -19,15 +19,21 @@
 
 <script>
     export default {
-        props:['propsdata'],
         methods:{
             removeTodo(todoItem, index){
-                this.$emit('removeItem', todoItem, index);
+                // this.$emit('removeItem', todoItem, index);
+                //객체화 
+                // const obj = {
+                //     todoItem : todoItem,
+                //     index: index
+                // };
+                this.$store.commit('removeOneItem', {todoItem,index});
                 // console.log(todoItem)
 
             },
             toggoleCom(todoItem, index){
-                this.$emit('toggleItem', todoItem, index);
+                // this.$emit('toggleItem', todoItem, index);
+                this.$store.commit('toggleOne', {todoItem,index});
             }
         }
         
