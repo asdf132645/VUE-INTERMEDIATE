@@ -24,6 +24,11 @@ export const store = new Vuex.Store({
         headText: "head",
         todoItems: storage.aa(),
     },
+    getters: {
+        strodeTodoItems(state) {
+            return state.todoItems;
+        }
+    },
     mutations: {
         addOneItem(state, todoItem) {
             // console.log('test');
